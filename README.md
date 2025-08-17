@@ -7,6 +7,7 @@ Caso de uso: Listar produtos
 3. [OUT] O sistema informa nome e preço dos produtos, ordenados por preço, conforme critérios
 
 Informações complementares:
+
 - Não precisa fazer validação de formulário (assuma que o usuário vai digitar valores válidos).
 - Não precisa implementar rotas (pode montar a tela toda no App)
 - Se o valor do preço mínimo não for informado, usar por padrão o valor 0 (zero).
