@@ -5,10 +5,19 @@ import ProductList from "../../components/ProductList";
 import * as productService from "../../services/product-services";
 import type { ProductDTO } from "../../assets/models/product";
 
+type QueryParams = {
+  minPrice?: number;
+  maxPrice?: number;
+}
+
 export default function Dashboard() {
 
   const [products, setProducts] = useState<ProductDTO[]>([]);
 
+  const [queryParams, setQueryParams] = useState<QueryParams>({
+    minPrice: 0,
+    maxPrice: Number.MAX_VALUE
+  })
 
   useEffect(() => {
     setProducts(productService.findByPrice(0, 10000))
