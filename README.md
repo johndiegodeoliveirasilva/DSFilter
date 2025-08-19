@@ -16,6 +16,8 @@ Informações complementares:
 O corpo da tela deve ser um componente (na imagem abaixo: ListingBody) que possui dois filhos: o card de filtro, e o card de listagem.
 Você ***DEVE*** implementar um evento pra fazer o componente de filtro notificar os parâmetros de listagem de produtos.
 
+<img width="1917" height="923" alt="image" src="https://github.com/user-attachments/assets/3ae6caa8-bb86-4d91-9fe6-d1be2d7fd342" />
+
 
 # Como executar
 ```
