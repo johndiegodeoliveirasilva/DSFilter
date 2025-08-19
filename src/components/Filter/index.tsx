@@ -1,12 +1,12 @@
 import { useState } from "react";
 
-type Props = {
-  onFilter: Function;
-};
-
 type FormDate = {
   minPrice?: number;
   maxPrice?: number;
+};
+
+type Props = {
+  onFilter: (params: FormDate) => void;
 };
 
 export default function Filter({ onFilter }: Props) {
@@ -19,8 +19,8 @@ export default function Filter({ onFilter }: Props) {
     event.preventDefault();
 
     const queryParams = {
-      minPrice: formDate.minPrice || 0,
-      maxPrice: formDate.maxPrice || Number.MAX_VALUE,
+      minPrice: formDate.minPrice ?? 0,
+      maxPrice: formDate.maxPrice ?? Number.MAX_VALUE,
     };
 
     onFilter(queryParams);
@@ -30,8 +30,12 @@ export default function Filter({ onFilter }: Props) {
     const { value, name } = event.target;
     setFormDate({
       ...formDate,
-      [name]: value,
+      [name]: value ? Number(value) : undefined,
     });
+  }
+
+  function handleResetFilter() {
+    setFormDate({});
   }
 
   return (
@@ -43,7 +47,7 @@ export default function Filter({ onFilter }: Props) {
         <div className="max-w-sm space-y-4">
           <div>
             <input
-              type="text"
+              type="number"
               placeholder="Preço mínimo"
               onChange={handleInpultChange}
               name="minPrice"
@@ -54,7 +58,7 @@ export default function Filter({ onFilter }: Props) {
 
           <div>
             <input
-              type="text"
+              type="number"
               placeholder="Preço máximo"
               onChange={handleInpultChange}
               value={formDate.maxPrice || ""}
@@ -63,12 +67,21 @@ export default function Filter({ onFilter }: Props) {
             />
           </div>
 
-          <button
-            type="submit"
-            className="w-full bg-green-500 text-white py-3 px-4 rounded-md hover:bg-green-600 transition-colors font-medium"
-          >
-            Filtrar
-          </button>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="submit"
+              className="w-full bg-green-500 text-white py-3 px-4 rounded-md hover:bg-green-600 transition-colors font-medium"
+            >
+              Filtrar
+            </button>
+
+            <button
+              onClick={handleResetFilter}
+              className="w-full bg-green-500 text-white py-3 px-4 rounded-md hover:bg-green-600 transition-color font-medium"
+            >
+              Resetar
+            </button>
+          </div>
         </div>
       </form>
     </>
