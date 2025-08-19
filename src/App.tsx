@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Dashboard from "./routes/Dashboard";
 import { ContextCount } from "./utils/context-count";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   const [contextCount, setContextCount] = useState<number>(0);
