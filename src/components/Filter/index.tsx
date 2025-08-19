@@ -1,47 +1,45 @@
 import { useState } from "react";
 
-type FormDate = {
-  minPrice?: number;
-  maxPrice?: number;
-};
+import { filterSchema } from "./schema";
+import type { FilterFormData } from "./schema";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type Props = {
-  onFilter: (params: FormDate) => void;
+  onFilter: (params: FilterFormData) => void;
 };
 
 export default function Filter({ onFilter }: Props) {
-  const [formDate, setFormDate] = useState<FormDate>({
-    minPrice: undefined,
-    maxPrice: undefined,
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FilterFormData>({
+    resolver: zodResolver(filterSchema),
+    defaultValues: {
+      minPrice: undefined,
+      maxPrice: undefined
+    }
   });
 
-  function handleSubmit(event: any) {
-    event.preventDefault();
-
+  function onSubmit(data: FilterFormData) {
     const queryParams = {
-      minPrice: formDate.minPrice ?? 0,
-      maxPrice: formDate.maxPrice ?? Number.MAX_VALUE,
-    };
-
-    onFilter(queryParams);
-  }
-
-  function handleInpultChange(event: any) {
-    const { value, name } = event.target;
-    setFormDate({
-      ...formDate,
-      [name]: value ? Number(value) : undefined,
-    });
+      minPrice: data.minPrice ?? 0,
+      maxPrice: data.maxPrice ?? Number.MAX_VALUE,
+    }
+    onFilter(queryParams)
   }
 
   function handleResetFilter() {
-    setFormDate({});
+    reset();
+    onFilter({ minPrice: 0, maxPrice: Number.MAX_VALUE });
   }
 
   return (
     <>
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className="bg-white rounded-lg shadow-sm p-6 mb-6"
       >
         <div className="max-w-sm space-y-4">
@@ -49,22 +47,24 @@ export default function Filter({ onFilter }: Props) {
             <input
               type="number"
               placeholder="Preço mínimo"
-              onChange={handleInpultChange}
-              name="minPrice"
-              value={formDate.minPrice || ""}
               className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              {...register('minPrice')}
             />
+            {errors.minPrice && (
+              <p className="text-red-500 text-sm">{errors.minPrice.message}</p>
+            )}
           </div>
 
           <div>
             <input
               type="number"
               placeholder="Preço máximo"
-              onChange={handleInpultChange}
-              value={formDate.maxPrice || ""}
-              name="maxPrice"
               className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              {...register('maxPrice')}
             />
+            {errors.maxPrice && (
+              <p className="text-red-500 text-sm">{errors.maxPrice.message}</p>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-2">
