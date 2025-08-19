@@ -15,3 +15,10 @@ Informações complementares:
 
 O corpo da tela deve ser um componente (na imagem abaixo: ListingBody) que possui dois filhos: o card de filtro, e o card de listagem.
 Você ***DEVE*** implementar um evento pra fazer o componente de filtro notificar os parâmetros de listagem de produtos.
+
+
+# Como executar
+```
+yarn dev
+```
+Ele ira escutar na porta 5173
